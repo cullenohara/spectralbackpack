@@ -9,7 +9,7 @@ public class Item {
 	public string itemDesc;
 	public ItemType itemType;
 	public int itemCost;
-	public int itemCount;
+	private int itemCount;
 	public float itemWeight;
 	public Color itemColor;
 	public bool itemStackable;
@@ -44,7 +44,19 @@ public class Item {
 		Fishing
 	}
 
-	public Item (string _name, int _id, string _desc, ItemType _type, int _cost, int _count, float _weight, Color _color,
+	public int ItemCount
+	{
+		get
+		{
+			return itemCount;
+		}
+		set
+		{
+			itemCount = value;
+		}
+	}
+
+	public Item (string _name, int _id, string _desc, ItemType _type, int _cost, float _weight, Color _color,
 	             bool _stackable, int _stacksize, string _material, int _dropchance, SkillRequired _skillreq, float _minskill,
 	             float _maxskill)
 	{
@@ -53,7 +65,6 @@ public class Item {
 		itemDesc = _desc;
 		itemType = _type;
 		itemCost = _cost;
-		itemCount = _count;
 		itemWeight = _weight;
 		itemColor = _color;
 		itemStackable = _stackable;

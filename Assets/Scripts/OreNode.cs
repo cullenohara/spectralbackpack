@@ -60,26 +60,10 @@ public class OreNode : MonoBehaviour {
 	void Spawn()
 	{
 		spawning = false;
-		dropCount = 0;
-		for (int i = 0; i < dropChances.Count; i++) 
-		{
-			dropCount += dropChances[i];
-		}
-		int rand = Random.Range (0, dropCount);
 
-		for (int j = 0; j < dropChances.Count; j++) 
-		{
-			if(rand <= ores[0].itemDropChance)
-			{
-				oreType = ores[0];
-				transform.GetComponent<MeshRenderer> ().material.color = oreType.itemColor;
-			}
-			else if(dropChances[j] <= rand)
-			{
-				oreType = ores[j];
-				transform.GetComponent<MeshRenderer> ().material.color = oreType.itemColor;
-			}
-		}
+		int rand = Random.Range (0, 3);
+		oreType = ores [rand];
+		transform.GetComponent<MeshRenderer> ().material.color = oreType.itemColor;
 
 		tempVeinType = Random.Range (0, 5);
 		GetVeinType ();
@@ -143,9 +127,8 @@ public class OreNode : MonoBehaviour {
 			print ("You found " + oreType.itemName + " !");
 			tempOre = Instantiate(ore, transform.position, transform.rotation) as Transform;
 			tempOre.GetComponent<Rigidbody>().AddForce(transform.up * 500);
-			tempOre.GetComponent<Ore>().oreColor = oreType.itemColor;
-			tempOre.GetComponent<Ore>().oreName = oreType.itemName;
-			tempOre.GetComponent<Ore>().oreRefID = oreType.itemID;
+			tempOre.GetComponent<Ore>().ore = oreType;
+			tempOre.GetComponent<Ore>().ore.ItemCount = 1;
 			oreCount--;
 			object[] tempStorage = new object[2];
 			tempStorage[0] = oreType.itemSkillReq.ToString();

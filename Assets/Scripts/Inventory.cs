@@ -6,24 +6,41 @@ using UnityEngine.UI;
 public class Inventory : MonoBehaviour {
 
 	public List<Item> inventory = new List<Item>();
-	private ItemDatabase database;
+	public bool isEmpty = true;
 
-	public Image slot0;
-	public Image slot1;
-	public Image slot2;
-
-	IEnumerator Start ()
+	void Update ()
 	{
-		yield return new WaitForSeconds (1.0f);
-
-		database = GameObject.FindGameObjectWithTag ("Database").GetComponent<ItemDatabase> ();
-		inventory.Add (database.items [0]);
-		inventory.Add (database.items [1]);
-		inventory.Add (database.items [2]);
-
-		slot0.GetComponent<Image>().sprite = database.items[0].itemIcon;
-		slot1.GetComponent<Image>().sprite = database.items[1].itemIcon;
-		slot2.GetComponent<Image>().sprite = database.items[2].itemIcon;
+		if (inventory.Count > 0) 
+		{
+			isEmpty = false;
+		}
 	}
+	
+	void AddItem (Item item)
+	{
+		print (item.ItemCount);
+		if (!isEmpty) {
+			int tempInt = 0;
+			for( int i = 0; i < inventory.Count; i++)
+			{
+				tempInt++;
+				if(item.itemID == inventory[i].itemID)
+				{
+					inventory[i].ItemCount += item.ItemCount;
+					print (inventory[i].ItemCount);
+					break;
+				}
+				if(tempInt == inventory.Count)
+				{
+					print ("No Match");
+					inventory.Add(item);
+					tempInt = 0;
+					break;
+				}
+			}
 
+		} else {
+			inventory.Add(item);
+		}
+	}
 }

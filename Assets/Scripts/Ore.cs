@@ -3,19 +3,21 @@ using System.Collections;
 
 public class Ore : MonoBehaviour {
 
-	public Color oreColor;
-	public string oreName;
-	public int oreRefID;
+	public Item ore;
+	public Inventory inventory;
 
 	void Start ()
 	{
-		transform.GetComponent<MeshRenderer>().material.color = oreColor;
-		transform.name = oreName;
+		inventory = GameObject.FindGameObjectWithTag ("Player").GetComponent<Inventory> ();
+		transform.GetComponent<MeshRenderer> ().material.color = ore.itemColor;
+		transform.name = ore.itemName;
 	}
 
 	void OnMouseDown ()
 	{
-		Destroy (gameObject);
-		print ("You collected " + oreName);
+		//print ("You collected (" + ore.itemCount + ") " + ore.itemName);
+		inventory.SendMessage ("AddItem", ore, SendMessageOptions.DontRequireReceiver);
+
+		Destroy (gameObject, 0.10f);
 	}
 }
