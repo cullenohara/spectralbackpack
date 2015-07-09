@@ -11,11 +11,11 @@ GameObject:
   - 33: {fileID: 3371212}
   - 65: {fileID: 6520646}
   - 23: {fileID: 2333790}
-  - 114: {fileID: 11445928}
   - 54: {fileID: 5453994}
+  - 114: {fileID: 11472816}
   m_Layer: 0
   m_Name: Ore
-  m_TagString: Untagged
+  m_TagString: OreList
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,7 +27,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 133890}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.41000009, z: 0}
+  m_LocalPosition: {x: .850000024, y: -.540000021, z: 2.27999997}
   m_LocalScale: {x: .300000012, y: .300000012, z: .300000012}
   m_Children: []
   m_Father: {fileID: 0}
@@ -90,7 +90,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &11445928
+--- !u!114 &11472816
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -98,12 +98,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 133890}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c53c68a00bb3e7468b61acda80dcf11, type: 3}
+  m_Script: {fileID: 11500000, guid: e68489069ef7b468a80b02251eedd8ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  oreColor: {r: 0, g: 0, b: 0, a: 0}
-  oreName: 
-  oreRefID: 0
+  oreList: []
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
