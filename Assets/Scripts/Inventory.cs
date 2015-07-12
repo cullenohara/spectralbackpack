@@ -138,7 +138,8 @@ public class Inventory : MonoBehaviour {
 
 			if (tempTo.Count == 0) {
 				from.ClearSlot();
-			} else {
+			} 
+			else {
 				from.AddItems (tempTo);
 			}
 			//Set it back to full opacity;

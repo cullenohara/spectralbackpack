@@ -141,4 +141,9 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 			UseItem();
 		}
 	}
+	
+	public void Tooltip ()
+	{
+
+	}
 }
