@@ -15,7 +15,6 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 	}
 
 	public Text stackText;
-
 	public Sprite slotEmpty;
 	public Sprite slotUncommon;
 	public Sprite slotRare;
@@ -67,6 +66,25 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 		else 
 		{
 			itemSprite.GetComponent<Image> ().enabled = true;
+
+			switch(stack.Peek().rarity)
+			{
+			case Item.ItemRarity.common :
+				GetComponent<Image>().sprite = GetComponent<Slot>().slotEmpty;
+				break;
+			case Item.ItemRarity.uncommon :
+				GetComponent<Image>().sprite = GetComponent<Slot>().slotUncommon;
+				break;
+			case Item.ItemRarity.rare :
+				GetComponent<Image>().sprite = GetComponent<Slot>().slotRare;
+				break;
+			case Item.ItemRarity.mythical :
+				GetComponent<Image>().sprite = GetComponent<Slot>().slotMythical;
+				break;
+			case Item.ItemRarity.legendary :
+				GetComponent<Image>().sprite = GetComponent<Slot>().slotLegendary;
+				break;
+			}
 		}
 	}
 
@@ -114,6 +132,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 	{
 		stack.Clear ();
 		stackText.text = string.Empty;
+		GetComponent<Image>().sprite = GetComponent<Slot>().slotEmpty;
 	}
 	
 	public void OnPointerClick (PointerEventData eventData)

@@ -13,8 +13,7 @@ public class Item : MonoBehaviour {
 	public int stackMax;
 	public ItemType type;
 	public ItemRarity rarity;
-
-
+	
 	public void Use ()
 	{
 		switch (type) 
