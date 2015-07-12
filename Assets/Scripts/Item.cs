@@ -13,14 +13,19 @@ public class Item : MonoBehaviour {
 	public int stackMax;
 	public ItemType type;
 	public ItemRarity rarity;
-	
-	public void Use ()
+
+	public Item (int id, string name, string desc, Sprite icon, int max, ItemType itemtype, ItemRarity rare)
 	{
-		switch (type) 
-		{
-		case ItemType.consumable:
-			Debug.Log("You just used " + itemName);
-			break;
-		}
+		itemID = id;
+		itemName = name;
+		itemDesc = desc;
+		stackMax = max;
+		type = itemtype;
+		rarity = rare;
+	}
+	
+	public virtual void Use ()
+	{
+		//Perform use function for this particular item type
 	}
 }

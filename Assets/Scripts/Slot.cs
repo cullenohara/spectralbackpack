@@ -107,16 +107,14 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 
 	private void UseItem ()
 	{
-		if (!IsEmpty) 
+		if (!IsEmpty && stack.Peek().type == Item.ItemType.consumable) 
 		{
 			stack.Pop().Use();
-
 			stackText.text = stack.Count > 1 ? stack.Count.ToString() : string.Empty;
 
 			if (IsEmpty)
 			{
-				ChangeSprite(slotEmpty);
-				Inventory.EmptySlots++;
+				ClearSlot();
 			}
 		}
 	}
@@ -133,6 +131,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 		stack.Clear ();
 		stackText.text = string.Empty;
 		GetComponent<Image>().sprite = GetComponent<Slot>().slotEmpty;
+		Inventory.EmptySlots++;
 	}
 	
 	public void OnPointerClick (PointerEventData eventData)
