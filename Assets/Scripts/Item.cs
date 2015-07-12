@@ -4,12 +4,16 @@ using System.Collections;
 public class Item : MonoBehaviour {
 
 	public enum ItemType { tool, material, consumable, armor, weapon }
+	public enum ItemRarity { common, uncommon, rare, mythical, legendary }
 
+	public int itemID;
 	public string itemName;
-	public ItemType type;
+	public string itemDesc;
+	public Sprite itemIcon;
 	public int stackMax;
-	public Sprite spriteNeutral;
-	public Sprite spriteHighlighted;
+	public ItemType type;
+	public ItemRarity rarity;
+
 
 	public void Use ()
 	{

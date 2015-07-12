@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour {
 
@@ -14,20 +15,25 @@ public class Inventory : MonoBehaviour {
 	public GameObject slotPrefab;
 
 	private List<GameObject> allSlots;
+	private static int emptySlots;
+
+	public static int EmptySlots
+	{
+		get { return emptySlots; }
+		set { emptySlots = value; }
+	}
+
+	private Slot from, to;
 
 	// Use this for initialization
 	void Start () {
 		CreateLayout ();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
 	private void CreateLayout ()
 	{
 		allSlots = new List<GameObject> ();
+		emptySlots = slots;
 		inventoryWidth = (slots / rows) * (slotSize + slotPaddingLeft) + slotPaddingLeft;
 		inventoryHeight = rows * (slotSize + slotPaddingTop) + slotPaddingTop;
 		inventoryRect = GetComponent<RectTransform> ();
@@ -51,4 +57,98 @@ public class Inventory : MonoBehaviour {
 			}
 		}
 	}
+
+	public bool AddItem(Item item)
+	{
+		if (item.stackMax <= 1) 
+		{
+			PlaceEmpty (item);
+			return true;
+		} 
+		else 
+		{
+			foreach (GameObject slot in allSlots)
+			{
+				Slot temp = slot.GetComponent<Slot>();
+
+				if (!temp.IsEmpty)
+				{
+					if (temp.CurrentItem.itemID == item.itemID && temp.IsAvailable)
+					{
+						temp.AddItem(item);
+						return true;
+					}
+				}
+			}
+			if (emptySlots > 0)
+			{
+				PlaceEmpty(item);
+			}
+			else
+			{
+				Debug.Log("Inventory is full.");
+			}
+		}
+
+		return false;
+	}
+
+	private bool PlaceEmpty (Item item)
+	{
+		if (emptySlots > 0) 
+		{
+			foreach (GameObject slot in allSlots) 
+			{
+				Slot temp = slot.GetComponent<Slot> ();
+
+				if (temp.IsEmpty) 
+				{
+					temp.AddItem (item);
+					emptySlots--;
+					Debug.Log (emptySlots);
+					return true;
+				}
+			}
+		} 
+
+		return false;
+	}
+
+	public void MoveItem(GameObject clicked)
+	{
+		if (from == null) 
+		{
+			if (!clicked.GetComponent<Slot> ().IsEmpty) 
+			{
+				//Gray out the item you have clicked
+				from = clicked.GetComponent<Slot> ();
+				from.GetComponent<Image> ().color = Color.gray;
+				from.itemSprite.GetComponent<Image>().color = Color.gray;
+				from.stackText.color = Color.gray;
+			}
+		} 
+		else if (to == null) 
+		{
+			to = clicked.GetComponent<Slot>();
+		}
+
+		if (to != null && from != null) {
+			Stack<Item> tempTo = new Stack<Item> (to.Stack);
+			to.AddItems (from.Stack);
+
+			if (tempTo.Count == 0) {
+				from.ClearSlot();
+			} else {
+				from.AddItems (tempTo);
+			}
+			//Set it back to full opacity;
+			from.GetComponent<Image> ().color = Color.white;
+			from.itemSprite.GetComponent<Image>().color = Color.white;
+			from.stackText.color = Color.white;
+			to = null;
+			from = null;
+		}
+	}
 }
+
+	

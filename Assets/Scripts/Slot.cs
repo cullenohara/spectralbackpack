@@ -2,22 +2,125 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour {
-
+public class Slot : MonoBehaviour, IPointerClickHandler
+{
 	private Stack<Item> stack;
+
+	public Stack<Item> Stack
+	{
+		get { return stack; }
+		set { stack = value; }
+	}
+
 	public Text stackText;
+
 	public Sprite slotEmpty;
-	public Sprite slotHighlighted;
+	public Sprite slotUncommon;
+	public Sprite slotRare;
+	public Sprite slotMythical;
+	public Sprite slotLegendary;
+
+	public RectTransform itemSprite;
+
+	public bool IsEmpty
+	{
+		get { return stack.Count == 0; }
+	}
+
+	public Item CurrentItem
+	{
+		//returns the last item on the stack
+		get { return stack.Peek (); }
+	}
+
+	public bool IsAvailable
+	{
+		//is stacking availabe?
+		get { return CurrentItem.stackMax > stack.Count; }
+	}
 
 	// Use this for initialization
 	void Start () {
 		stack = new Stack<Item> ();
 		RectTransform slotRect = GetComponent<RectTransform> ();
+		RectTransform textRect = stackText.GetComponent<RectTransform> ();
+		RectTransform iconRect = itemSprite;
+
+		int textScaleFactor = (int)(slotRect.sizeDelta.x * 0.60);
+		stackText.resizeTextMaxSize = textScaleFactor;
+		stackText.resizeTextMinSize = textScaleFactor;
+
+		textRect.SetSizeWithCurrentAnchors (RectTransform.Axis.Vertical, slotRect.sizeDelta.y);
+		textRect.SetSizeWithCurrentAnchors (RectTransform.Axis.Horizontal, slotRect.sizeDelta.x);
+		iconRect.SetSizeWithCurrentAnchors (RectTransform.Axis.Vertical, slotRect.sizeDelta.y);
+		iconRect.SetSizeWithCurrentAnchors (RectTransform.Axis.Horizontal, slotRect.sizeDelta.x);
+	}
+
+	void Update ()
+	{
+		if (IsEmpty) 
+		{
+			itemSprite.GetComponent<Image> ().enabled = false;
+		} 
+		else 
+		{
+			itemSprite.GetComponent<Image> ().enabled = true;
+		}
+	}
+
+	public void AddItem(Item item)
+	{
+		stack.Push (item);
+
+		if (stack.Count > 1) 
+		{
+			stackText.text = stack.Count.ToString();
+		}
+
+		ChangeSprite (item.itemIcon);
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	private void ChangeSprite(Sprite icon)
+	{
+		itemSprite.GetComponent<Image>().sprite = icon;
+	}
+
+	private void UseItem ()
+	{
+		if (!IsEmpty) 
+		{
+			stack.Pop().Use();
+
+			stackText.text = stack.Count > 1 ? stack.Count.ToString() : string.Empty;
+
+			if (IsEmpty)
+			{
+				ChangeSprite(slotEmpty);
+				Inventory.EmptySlots++;
+			}
+		}
+	}
+
+	public void AddItems(Stack<Item> stack)
+	{
+		this.stack = new Stack<Item>(stack);
+		stackText.text = stack.Count > 1 ? stack.Count.ToString() : string.Empty;
+		ChangeSprite (CurrentItem.itemIcon);
+	}
+
+	public void ClearSlot()
+	{
+		stack.Clear ();
+		stackText.text = string.Empty;
+	}
 	
+	public void OnPointerClick (PointerEventData eventData)
+	{
+		if (eventData.button == PointerEventData.InputButton.Right) 
+		{
+			UseItem();
+		}
 	}
 }
