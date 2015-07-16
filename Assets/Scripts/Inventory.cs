@@ -15,6 +15,7 @@ public class Inventory : MonoBehaviour {
 	public GameObject slotPrefab;
 
 	private List<GameObject> allSlots;
+	public List<Item> fullInventory;
 	private static int emptySlots;
 
 	public static int EmptySlots
@@ -63,6 +64,7 @@ public class Inventory : MonoBehaviour {
 		if (item.stackMax <= 1) 
 		{
 			PlaceEmpty (item);
+			GetInventory();
 			return true;
 		} 
 		else 
@@ -76,6 +78,7 @@ public class Inventory : MonoBehaviour {
 					if (temp.CurrentItem.itemID == item.itemID && temp.IsAvailable)
 					{
 						temp.AddItem(item);
+						GetInventory();
 						return true;
 					}
 				}
@@ -83,6 +86,7 @@ public class Inventory : MonoBehaviour {
 			if (emptySlots > 0)
 			{
 				PlaceEmpty(item);
+				GetInventory();
 			}
 			else
 			{
@@ -148,6 +152,17 @@ public class Inventory : MonoBehaviour {
 			from.stackText.color = Color.white;
 			to = null;
 			from = null;
+		}
+	}
+
+	public void GetInventory ()
+	{
+		foreach (GameObject slot in allSlots) {
+			Slot temp = slot.GetComponent<Slot> ();
+		
+			if (!temp.IsEmpty) {
+				fullInventory.Add (temp.CurrentItem);
+			}
 		}
 	}
 }

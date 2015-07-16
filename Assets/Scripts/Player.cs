@@ -5,6 +5,11 @@ public class Player : MonoBehaviour {
 
 	public float speed;
 	public Inventory inventory;
+
+	void Start ()
+	{
+		PlayerPrefs.SetFloat ("Mining", 20.0f);
+	}
 	
 	// Update is called once per frame
 	void Update () 
