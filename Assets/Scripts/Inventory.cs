@@ -13,9 +13,10 @@ public class Inventory : MonoBehaviour {
 	public float slotPaddingLeft, slotPaddingTop;
 	public float slotSize;
 	public GameObject slotPrefab;
-
+	
 	private List<GameObject> allSlots;
 	public List<Item> fullInventory;
+
 	private static int emptySlots;
 
 	public static int EmptySlots
@@ -109,7 +110,6 @@ public class Inventory : MonoBehaviour {
 				{
 					temp.AddItem (item);
 					emptySlots--;
-					Debug.Log (emptySlots);
 					return true;
 				}
 			}

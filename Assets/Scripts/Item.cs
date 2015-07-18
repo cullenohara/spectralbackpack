@@ -5,6 +5,7 @@ public class Item : MonoBehaviour {
 
 	public enum ItemType { tool, material, consumable, armor, weapon }
 	public enum ItemRarity { common, uncommon, rare, mythical, legendary }
+	public enum SkillUsed { alchemy, blacksmithing, carpentry, fishing, hunting, lumberjacking, mining, tinkering }
 
 	public int itemID;
 	public string itemName;
@@ -13,6 +14,8 @@ public class Item : MonoBehaviour {
 	public int stackMax;
 	public ItemType type;
 	public ItemRarity rarity;
+	public SkillUsed skill;
+	public string resourceName;
 
 	public virtual void Use ()
 	{

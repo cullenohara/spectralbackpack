@@ -8,7 +8,7 @@ public class Player : MonoBehaviour {
 
 	void Start ()
 	{
-		PlayerPrefs.SetFloat ("Mining", 20.0f);
+		PlayerPrefs.SetFloat ("mining", 20.0f);
 	}
 	
 	// Update is called once per frame
@@ -30,5 +30,10 @@ public class Player : MonoBehaviour {
 		{
 			inventory.AddItem(other.GetComponent<Item>());
 		}
+	}
+
+	public void GainSkill (string skill, float value)
+	{
+		print (skill);
 	}
 }
